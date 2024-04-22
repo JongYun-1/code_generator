@@ -1,3 +1,4 @@
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub(crate) enum Instruction {
     Sense { sensedir: CardDir, l1: i32, l2: i32, cond: String },
     Mark { m: usize, l: usize },
@@ -9,6 +10,23 @@ pub(crate) enum Instruction {
     Flip { p: usize, l1: usize, l2: usize },
 }
 
+impl ToString for Instruction {
+    fn to_string(&self) -> String {
+        match *self {
+            Self::Sense { sensedir, l1, l2, cond } => format!("Sense {} {} {} {}", sensedir.to_string(), l1, l2, cond.to_string()),
+            Self::Mark { m, l } => format!("Mark {} {}", m, l),
+            Self::Unmark { m, l } => format!("Unmark {} {}", m, l),
+            Self::PickUp { l1, l2 } => format!("PickUp {} {}", l1, l2),
+            Self::Drop { l } => format!("Drop {}", l),
+            Self::Turn { lr, l } => format!("Turn {} {}", lr.to_string(), l),
+            Self::Move { l1, l2 } => format!("Move {} {}", l1, l2),
+            Self::Flip { p, l1, l2 } => format!("Flip {} {} {}", p, l1, l2),
+            //_ => format!("")
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub(crate) enum CardDir {
     NorthEast,
     East,
@@ -18,6 +36,20 @@ pub(crate) enum CardDir {
     NorthWest,
 }
 
+impl ToString for CardDir {
+    fn to_string(&self) -> String {
+        match *self {
+            Self::NorthEast => "NorthEast".to_string(),
+            Self::East => "East".to_string(),
+            Self::SouthEast => "SouthEast".to_string(),
+            Self::SouthWest => "SouthWest".to_string(),
+            Self::West => "West".to_string(),
+            Self::NorthWest => "NorthWest".to_string()
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SenseDir {
     Here,
     Ahead,
@@ -25,18 +57,78 @@ pub enum SenseDir {
     RightAhead
 }
 
+impl ToString for SenseDir {
+    fn to_string(&self) -> String {
+        match *self {
+            Self::Here => "Here".to_string(),
+            Self::Ahead => "Ahead".to_string(),
+            Self::LeftAhead => "Left".to_string(),
+            Self::RightAhead => "Right".to_string()
+
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum RelDir {
     Left,
     Right,
 }
+
+impl ToString for RelDir {
+    fn to_string(&self) -> String {
+        match *self {
+            Self::Left => "Left".to_string(),
+            Self::Right => "Right".to_string()
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum Direction {
     Left,
     Right,
 }
 
-enum Condition {
+impl ToString for Direction {
+    fn to_string(&self) -> String {
+        match *self {
+            Self::Left => "Left".to_string(),
+            Self::Right => "Right".to_string()
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Condition {
+    Friend,
+    Foe,
+    FriendWithFood,
+    FoeWithFood,
     Food,
+    Building,
+    Transponder(u32),
+    FoeTransponder,
     HomeBase,
+    FoeBase
+}
+
+impl ToString for Condition {
+    fn to_string(&self) -> String {
+        match *self {
+            Self::Friend => "Friend".to_string(),
+            Self::Foe => "Foe".to_string(),
+            Self::FriendWithFood => "FriendWithFood".to_string(),
+            Self::FoeWithFood => "FoeWithFood".to_string(),
+            Self::Food => "Food".to_string(),
+            Self::Building => "Building".to_string(),
+            Self::Transponder(num) => format!("Transponder {}", num),
+            Self::FoeTransponder => "FoeTransponder".to_string(),
+            Self::HomeBase => "HomeBase".to_string(),
+            Self::FoeBase => "FoeBase".to_string()
+
+        }
+    }
 }
 
 pub(crate) struct Label {
