@@ -64,8 +64,8 @@ impl ToString for SenseDir {
         match *self {
             Self::Here => "Here".to_string(),
             Self::Ahead => "Ahead".to_string(),
-            Self::LeftAhead => "Left".to_string(),
-            Self::RightAhead => "Right".to_string()
+            Self::LeftAhead => "LeftAhead".to_string(),
+            Self::RightAhead => "RightAhead".to_string()
 
         }
     }
