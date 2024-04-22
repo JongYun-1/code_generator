@@ -18,13 +18,52 @@ label leavehome
 label collect
     Move clear 1
     Mark 1 1
+    Turn Right 1
     Turn Right clear
 label clear
     Move 1 collect
     Sense Ahead food 1 Food
+label senseleft
+    Sense LeftAhead 1 senseright Food
+    Turn Left 1
+    Move 1 0
+    PickUp gobackleft resetleft
+label resetleft
+    Turn Left 1
+    Turn Left 1
+    Turn Left 1
+    Move 1 0
+    Turn Left 1
+    Turn Left collect
+label gobackleft
+    Turn Left 1
+    Turn Left 1
+    Turn Left 1
+    Move 1 0
+    Turn Right ontheway
+label senseright
+    Sense RightAhead 1 donesense Food
+    Turn Right 1
+    Move 1 0
+    PickUp gobackright resetright
+label resetright
+    Turn Left 1
+    Turn Left 1
+    Turn Left 1
+    Move 1 0
+    Turn Right 1
+    Turn Right collect
+label gobackright
+    Turn Left 1
+    Turn Left 1
+    Turn Left 1
+    Move 1 0
+    Turn Left ontheway
+label donesense
     Move food clear
 label food
     Move 1 collect
+    Sense Here start 1 HomeBase
     PickUp 1 collect
 label returnhome
     Turn Left 1
@@ -33,6 +72,7 @@ label returnhome
 label ontheway
     Move clearback 1
     Mark 1 1
+    Turn Left 1
     Turn Left clearback
 label clearback
     Move 1 ontheway
