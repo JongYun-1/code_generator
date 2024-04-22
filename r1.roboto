@@ -1,0 +1,11 @@
+label 0:
+    Flip 2 1 10
+    Turn Left 0
+    Turn Right 0
+label 100:
+    Sense Ahead 101 0 Food
+    PickUp 200 0
+label 200:
+    Sense Ahead 201 0 HomeBase
+    Move 200 0
+    Drop 0
