@@ -2,57 +2,67 @@ mod config;
 mod roboto_code_generator;
 mod desugar;
 
-use std::fs::File;
+use std::env;
+use std::path::Path;
+use std::{fs::File, io};
 use std::io::Write;
 use config::Config;
 use roboto_code_generator::RobotoProgram;
 use crate::desugar::{Instruction, parse_roboto_program};
 
-fn main() {
+fn main() -> io::Result<()> {
     let config = Config::new("./src/config.txt");
     let roboto_program = RobotoProgram::new(config);
     let program_code = roboto_program.generate();
 
     let program = r#"
-label 0:
-    Flip 2 1 10
-    Turn Left 0
-    Turn Right 0
-label 100:
-    Sense Ahead 101 0 Food
-    PickUp 200 0
-label 200:
-    Sense Ahead 201 0 HomeBase
-    Move 200 0
-    Drop 0
+label start
+    Flip 2 1 end
+    Turn Left 1
+    Turn Right 1
+label mid
+    Sense Ahead start 1 Food
+    PickUp 1 start
+label end
+    Sense Ahead 1 start HomeBase
+    Move 1 start
+    Drop start
 "#;
-    let labels = parse_roboto_program(program);
+    let args: Vec<String> = env::args().collect();
+    let in_path = Path::new(&args[1]);
+    let out_path = Path::new(&args[2]);
 
-    for label in labels {
-        println!("label {}:", label.number);
-        for instruction in label.instructions {
-            match instruction {
-                Instruction::Flip { p, l1, l2 } => println!("    Flip {} {} {}", p, l1, l2),
-                Instruction::Turn { lr, l } => println!("    Turn {} {}", lr, l),
-                Instruction::Sense { sensedir, l1, l2, cond } => println!("    Sense {} {} {} {}", sensedir, l1, l2, cond),
-                Instruction::PickUp { l1, l2 } => println!("    PickUp {} {}", l1, l2),
-                Instruction::Move { l1, l2 } => println!("    Move {} {}", l1, l2),
-                Instruction::Drop { l } => println!("    Drop {}", l),
-                _ => {}
+    let lines: Vec<String> = program.lines().map(String::from).collect();
+
+    let result = parse_roboto_program(lines);
+    match result {
+        Ok(res) => {
+            let mut file = match File::create(out_path) {
+                Ok(file) => file,
+                Err(e) => {
+                    eprintln!("Error creating file: {}", e);
+                    return Err(e);
+                }
+            };
+            for line in res {
+                file.write_all(line.as_bytes())?;
+                file.write_all(b"\n")?;
+
             }
+            Ok(())
+        },
+        Err(e) => {
+            eprintln!("{}", e);
+            Ok(())
         }
     }
-    let mut file = match File::create("collecting.roboto") {
-        Ok(file) => file,
-        Err(e) => {
-            eprintln!("Error creating file: {}", e);
-            return;
-        }
-    };
+
+    
+    
 
     // Attempt to write the program code to the file
-    match file.write_all(program_code.as_bytes()) {
-        Ok(_) => println!("Program successfully written to file."),
-        Err(e) => eprintln!("Error writing to file: {}", e),
-    }
+    //match file.write_all(program_code.as_bytes()) {
+    //    Ok(_) => println!("Program successfully written to file."),
+    //    Err(e) => eprintln!("Error writing to file: {}", e),
+    //}
 }
