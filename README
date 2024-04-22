@@ -20,13 +20,18 @@ label end
     Move 1 start
     Drop start
 
-label lines do NOT count when jumping relative to a line. For instance, PickUp 1 start will go DIRECTLY to Sense Ahead 1 start HomeBase
+label lines do NOT count when jumping relative to a line. For instance, PickUp 1 start will go DIRECTLY to Sense Ahead 1 start HomeBase.
+negative numbers can be used as labels to go BACK lines.
+Other than labels, the r+ behaves the same way as base roboto.
 
-negative numbers can be used as labels to go BACK lines
+The r+ source code for our final program is `program.r+`.
+The final roboto code for our program is `program.roboto`.
+(If semicolons are causing any issues, we have included a version without them in `program-nosemis.roboto`)
+Failed (unused) programs can be found in the `failed/` directory. These consist of both R+ and roboto.
 
-The r+ source code for our final program is program.r+.
-The final roboto code for our program is program.roboto.
-Failed (unused) programs can be found in the `failed/` directory. These consist of both R+ and roboto
+We have included a pdf `Strategy_Progress_Reflection.pdf` to outline strategies that we considered for implementation during the project.
+
+Ultimately, our strategy revolved around creating a deterministic path, so that in the event that robots found food, they could simply retrace their steps to get home. We used randomness to establish initial directions each time the robots leave their home base.
 
 Usage:
 cargo run -- <input path> <output path>
