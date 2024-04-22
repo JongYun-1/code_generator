@@ -35,7 +35,7 @@ fn main() -> io::Result<()> {
             };
             for line in res {
                 file.write_all(line.as_bytes())?;
-                file.write_all(b"\n")?;
+                file.write_all(b";\n")?;
 
             }
             Ok(())
