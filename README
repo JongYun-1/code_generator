@@ -1,5 +1,6 @@
-Our tool performs label to offset resolution. It takes an input program that appears similar to Roboto,
-but with two key differences:
+We created a tool that turns a slightly modified version of roboto (known as r+ after this point) into roboto proper.
+
+Our tool resolves text labels and relative offsets to absolute roboto labels. R+ has two key differences:
 
 1. The "label" keyword. Labels of the form `label <string>` can be used in place of numbers to reference where to jump next
 2. If a label is instead specified in number form, instead of referencing the line relative to the beginning of the file, it references the line relative to itself. For instance, `Move 1 2` will move, and on success, it will go to the next line, or on failure, it will skip ahead by 2 lines.
@@ -23,7 +24,9 @@ label lines do NOT count when jumping relative to a line. For instance, PickUp 1
 
 negative numbers can be used as labels to go BACK lines
 
-
+The r+ source code for our final program is program.r+.
+The final roboto code for our program is program.roboto.
+Failed (unused) programs can be found in the `failed/` directory. These consist of both R+ and roboto
 
 Usage:
 cargo run -- <input path> <output path>

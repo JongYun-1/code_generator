@@ -1,0 +1,30 @@
+Flip 6 12 1
+Flip 2 2 7
+Turn Left 3
+Flip 3 12 4
+Turn Left 5
+Flip 2 12 6
+Turn Left 12
+Turn Right 8
+Flip 3 12 9
+Turn Right 10
+Flip 2 12 11
+Turn Right 12
+Move 13 0
+Move 16 14
+Mark 1 15
+Turn Right 16
+Move 17 13
+Sense Ahead 19 18 Food
+Move 19 16
+Move 20 13
+PickUp 21 13
+Turn Left 22
+Turn Left 23
+Turn Left 24
+Move 27 25
+Mark 1 26
+Turn Left 27
+Move 28 24
+Sense Ahead 29 24 HomeBase
+Drop 0
