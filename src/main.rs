@@ -5,34 +5,23 @@ mod desugar;
 use std::env;
 use std::path::Path;
 use std::{fs::File, io};
-use std::io::Write;
+use std::io::{BufRead, Write};
 use config::Config;
 use roboto_code_generator::RobotoProgram;
 use crate::desugar::{Instruction, parse_roboto_program};
 
 fn main() -> io::Result<()> {
-    let config = Config::new("./src/config.txt");
-    let roboto_program = RobotoProgram::new(config);
-    let program_code = roboto_program.generate();
-
-    let program = r#"
-label start
-    Flip 2 1 end
-    Turn Left 1
-    Turn Right 1
-label mid
-    Sense Ahead start 1 Food
-    PickUp 1 start
-label end
-    Sense Ahead 1 start HomeBase
-    Move 1 start
-    Drop start
-"#;
+    //let config = Config::new("./src/config.txt");
+    //let roboto_program = RobotoProgram::new(config);
+    //let program_code = roboto_program.generate();
     let args: Vec<String> = env::args().collect();
     let in_path = Path::new(&args[1]);
     let out_path = Path::new(&args[2]);
 
-    let lines: Vec<String> = program.lines().map(String::from).collect();
+    //let lines: Vec<String> = program.lines().map(String::from).collect();
+    let file = File::open(in_path)?;
+    let mut file_lines = io::BufReader::new(file).lines();
+    let lines: Vec<String> =  file_lines.map(|line| line.unwrap()).collect();
 
     let result = parse_roboto_program(lines);
     match result {
