@@ -273,11 +273,19 @@ pub fn parse_instruction(input: &str, label_map: &HashMap<String, usize>, cur_li
             match sDir {
                 None => Err("Invalid CardDir".to_string()),
                 Some(realDir) => {
+                    let cond = parts.get(4).ok_or("Missing condition for Sense")?;
+                    let realCond = match *cond {
+                        "Transponder" => {
+                            let num = parts.get(5).ok_or("Missing transponder num")?;
+                            format!("Transponder {}", num)
+                        },
+                        _ => (*cond).to_string()
+                    };
                     Ok(Instruction::Sense {
                         sensedir: realDir,
                         l1: parts.get(2).and_then(|&s| resolve_label(s, label_map, cur_line)).ok_or("Invalid 'l1' value for Sense")?,
                         l2: parts.get(3).and_then(|&s| resolve_label(s, label_map, cur_line)).ok_or("Invalid 'l2' value for Sense")?,
-                        cond: parts.get(4).ok_or("Missing condition for Sense")?.to_string(),
+                        cond: realCond.to_string(),
                     })
                 }
             }
