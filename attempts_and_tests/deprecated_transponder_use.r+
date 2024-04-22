@@ -1,0 +1,62 @@
+label spreadOut
+    Sense Ahead pickItUp 1 Food
+    Sense Ahead foundEnemy 1 FoeWithFood
+    Move 1 2
+    Mark 0 3
+    Flip 3 spreadOut 1
+    Flip 1 turnLeft turnRight
+
+label turnLeft
+    Turn Left spreadOut
+
+label turnRight
+    Turn Right spreadOut
+
+label pickItUp
+    Move 1 spreadOut
+    PickUp returnHome 1
+    Flip 1 turnRight turnLeft
+
+label returnHome
+    Sense Here 1 turnThenHome HomeBase
+    Drop spreadOut
+    Unmark 0 1
+
+label turnThenHome
+    Sense Ahead evadeEnemy 1 Foe
+    Sense Ahead evadeEnemy 1 FoeWithFood
+    Move returnHome 1
+    Unmark 0 2
+    Flip 1 1 2
+    Turn Left turnThenHome
+    Turn Right turnThenHome
+
+label stickToBuilding
+    Turn Left 1
+    Turn Left 3
+    Turn Right 1
+    Turn Right 1
+    Move 1 spreadOut
+    Sense Ahead 0 stickToBuilding Building
+
+label evadeEnemy
+    Flip 1 stickToWall 1
+    Flip 1 1 3
+    Turn Left 1
+    Turn Left turnThenHome
+    Turn Right 1
+    Turn Right turnThenHome
+
+label foundEnemy
+    Mark 3 1
+    Flip 1 1 2
+    Turn Left 1
+    Move enemyStillThereL spreadOut
+    Turn Right 1
+    Move enemyStillThereR spreadOut
+
+label enemyStillThereL
+    Sense RightAhead enemyStillThereL spreadOut FoeWithFood
+
+label enemyStillThereR
+    Sense LeftAhead enemyStillThereR spreadOut FoeWithFood
