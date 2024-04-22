@@ -250,7 +250,7 @@ pub fn parse_instruction(input: &str, label_map: &HashMap<String, usize>, cur_li
         Some("Flip") => {
             Ok(Instruction::Flip {
                 p: parts.get(1).and_then(|&s| s.parse().ok()).ok_or("Invalid 'p' value for Flip")?,
-                l1: parts.get(2).and_then(|&s| resolve_label(s, label_map, cur_line)).ok_or("Invalid 'l1' value for Flip")?,
+                l1: parts.get(2).and_then(|&s| resolve_label(s, label_map, cur_line)).ok_or(format!("Invalid 'l1' value for {}", input))?,
                 l2: parts.get(3).and_then(|&s| resolve_label(s, label_map, cur_line)).ok_or("Invalid 'l2' value for Flip")?,
             })
         },
@@ -301,13 +301,13 @@ pub fn parse_instruction(input: &str, label_map: &HashMap<String, usize>, cur_li
         },
         Some("Mark") => {
             Ok(Instruction::Mark { 
-                m: parts.get(1).and_then(|&s| resolve_label(s, label_map, cur_line)).ok_or("Invalid 'm' value for Mark")?,
+                m: parts.get(1).and_then(|&s| s.parse().ok()).ok_or("Invalid 'm' value for Mark")?,
                 l: parts.get(2).and_then(|&s| resolve_label(s, label_map, cur_line)).ok_or("Invalid 'l' value for Mark")? 
             })
         }, 
         Some("Unmark") => {
             Ok(Instruction::Unmark { 
-                m: parts.get(1).and_then(|&s| resolve_label(s, label_map, cur_line)).ok_or("Invalid 'm' value for Unmark")?,
+                m: parts.get(1).and_then(|&s| s.parse().ok()).ok_or("Invalid 'm' value for Unmark")?,
                 l: parts.get(2).and_then(|&s| resolve_label(s, label_map, cur_line)).ok_or("Invalid 'l' value for Unmark")? 
             })
         },
