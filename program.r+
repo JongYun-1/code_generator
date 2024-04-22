@@ -1,0 +1,41 @@
+label start
+    Flip 6 leavehome 1
+    Flip 2 left right
+label left
+    Turn Left 1
+    Flip 3 leavehome 1
+    Turn Left 1
+    Flip 2 leavehome 1
+    Turn Left leavehome
+label right
+    Turn Right 1
+    Flip 3 leavehome 1
+    Turn Right 1
+    Flip 2 leavehome 1
+    Turn Right leavehome
+label leavehome
+    Move 1 start
+label collect
+    Move clear 1
+    Mark 1 1
+    Turn Right clear
+label clear
+    Move 1 collect
+    Sense Ahead food 1 Food
+    Move food clear
+label food
+    Move 1 collect
+    PickUp 1 collect
+label returnhome
+    Turn Left 1
+    Turn Left 1
+    Turn Left 1
+label ontheway
+    Move clearback 1
+    Mark 1 1
+    Turn Left clearback
+label clearback
+    Move 1 ontheway
+    Sense Ahead dropoff ontheway HomeBase
+label dropoff
+    Drop start
