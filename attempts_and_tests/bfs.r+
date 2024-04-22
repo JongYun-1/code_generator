@@ -1,0 +1,34 @@
+label startExploration
+    Mark 0 checkDirection
+
+label checkDirection
+    Sense Ahead handleNoFood 1 Building
+    Move exploreNew 3
+
+label exploreNew
+    Sense Here 4 5 Food
+    PickUp foundFood handleNoFood
+
+label handleNoFood
+    Flip 1 1 2
+    Turn Left checkDirection
+    Turn Right checkDirection
+
+label foundFood
+    Mark 0 returnToBase
+
+label returnToBase
+    Unmark 0 checkBackTrail
+
+label checkBackTrail
+    Sense Here 1 checkDirection Transponder 0
+    Move followTrail turnAround
+
+label followTrail
+    Move returnToBase turnAround
+
+label turnAround
+    Flip 1 1 2
+    Turn Left 1
+    Turn Left startExploration
+    Turn Right startExploration
