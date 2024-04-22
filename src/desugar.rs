@@ -299,6 +299,18 @@ pub fn parse_instruction(input: &str, label_map: &HashMap<String, usize>, cur_li
                 l: parts.get(1).and_then(|&s| resolve_label(s, label_map, cur_line)).ok_or("Invalid label for Drop")?,
             })
         },
-        _ => Err("Unknown instruction".to_string()),
+        Some("Mark") => {
+            Ok(Instruction::Mark { 
+                m: parts.get(1).and_then(|&s| resolve_label(s, label_map, cur_line)).ok_or("Invalid 'm' value for Mark")?,
+                l: parts.get(2).and_then(|&s| resolve_label(s, label_map, cur_line)).ok_or("Invalid 'l' value for Mark")? 
+            })
+        }, 
+        Some("Unmark") => {
+            Ok(Instruction::Unmark { 
+                m: parts.get(1).and_then(|&s| resolve_label(s, label_map, cur_line)).ok_or("Invalid 'm' value for Unmark")?,
+                l: parts.get(2).and_then(|&s| resolve_label(s, label_map, cur_line)).ok_or("Invalid 'l' value for Unmark")? 
+            })
+        },
+        _ => Err(format!("Unknown Instruction: {}", input)),
     }
 }
