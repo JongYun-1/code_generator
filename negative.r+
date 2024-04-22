@@ -1,0 +1,11 @@
+label start
+    Flip 2 1 end
+    Turn Left 1
+    Turn Right 1
+label mid
+    Sense Ahead start 1 Food
+    PickUp -1 start
+label end
+    Sense Ahead 1 start HomeBase
+    Move 1 start
+    Drop start

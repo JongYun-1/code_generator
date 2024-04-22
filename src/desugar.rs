@@ -230,7 +230,7 @@ pub fn parse_rel_dir(dir: &str) -> Option<RelDir> {
 pub fn resolve_label(label: &str, label_map: &HashMap<String, usize>, cur_line: usize) -> Option<usize> {
     match label.parse::<i64>() {
         Ok(num) => {
-            let abs_lab = cur_line + num as usize;
+            let abs_lab = (cur_line as i64 + num) as usize;
             Some(abs_lab)
         },
         Err(_) => {
